@@ -1,3 +1,10 @@
+// Buffer class that represents opened file
+#include <vector>
+#include <string>
+#include <fstream>
+
+#if !defined(BUFFER)
+#define BUFFER
 
 class Buffer {
     private:
@@ -15,3 +22,4 @@ class Buffer {
         int write();
 };
 
+#endif
