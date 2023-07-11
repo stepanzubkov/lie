@@ -26,7 +26,7 @@ std::size_t Buffer::get_prev_current_line() const {
 
 void Buffer::set_current_line(std::size_t curr_line) {
     prev_current_line = this->current_line;
-    current_line = curr_line;
+    current_line = current_line;
 }
 int Buffer::open_file(std::string filename) {
     if (file.is_open()) {

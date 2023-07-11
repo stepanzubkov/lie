@@ -22,13 +22,15 @@ int main(int argc, char** argv) {
         {"q", "quit"},
         {"h", "help"},
         {"p", "print"},
-        {"o", "open"}
+        {"o", "open"},
+        {"g", "goto"},
     };
     Buffer* current_buffer = new Buffer();
     std::map<std::string, Command*> commands{
         {"quit", new Quit()},
         {"print", new Print(current_buffer)},
-        {"open", new Open(current_buffer)}
+        {"open", new Open(current_buffer)},
+        {"goto", new GoTo(current_buffer)},
     };
     commands["help"] = new Help(commands, commands_aliases);
     if (argc > 1) {

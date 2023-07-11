@@ -8,7 +8,7 @@
 Print::Print(Buffer* buffer) : buffer(buffer) {}
 
 void Print::run(CommandArgs args) {
-    for (std::string& line: buffer->get_lines()) {
+    for (std::string& line: *(buffer->get_lines())) {
         std::cout << line << '\n';
     }
 }

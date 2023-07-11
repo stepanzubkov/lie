@@ -1,7 +1,7 @@
 all: lie
 
-lie: main.o parse.o buffer.o quit.o help.o print.o open.o exit.o
-	g++ main.o parse.o buffer.o quit.o help.o print.o open.o exit.o -o lie
+lie: main.o parse.o buffer.o quit.o help.o print.o open.o exit.o goto.o
+	g++ main.o parse.o buffer.o quit.o help.o print.o open.o exit.o goto.o -o lie
 
 main.o: main.cpp
 	g++ -c main.cpp
@@ -27,6 +27,8 @@ print.o: commands/print.cpp
 open.o: commands/open.cpp
 	g++ -c commands/open.cpp
 
+goto.o: commands/goto.cpp
+	g++ -c commands/goto.cpp
 
 clean:
 	rm -f *.o lie

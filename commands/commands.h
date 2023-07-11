@@ -43,3 +43,12 @@ class Open : public Command {
         void run(CommandArgs args);
         void help();
 };
+
+class GoTo : public Command {
+    private:
+        Buffer* buffer;
+    public:
+        GoTo(Buffer* buffer);
+        void run(CommandArgs args);
+        void help();
+};
