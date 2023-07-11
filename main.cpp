@@ -1,4 +1,5 @@
 #include <iostream>
+#include <new>
 #include <string>
 #include <map>
 #include "parse.h"
@@ -6,8 +7,14 @@
 #include "commands/commands.h"
 #include "exit.h"
 
+void validate_args(int, char**);
 
-int main() {
+int main(int argc, char** argv) {
+    try {
+        validate_args(argc, argv);
+    } catch (Exit const& e) {
+        return e.value;
+    }
     std::cout << "*** \e[01;34mLie - LIne Editor for advanced programmers.\e[0m ***\n";
     std::cout << "    Type 'help <command>' for help, 'quit' for quit application.\n";
     std::string command;
@@ -24,6 +31,10 @@ int main() {
         {"open", new Open(current_buffer)}
     };
     commands["help"] = new Help(commands, commands_aliases);
+    if (argc > 1) {
+        CommandArgs open_args = parse_args(argv[1]);
+        commands["open"]->run(open_args);
+    }
     while (true) {
         std::cout << current_buffer->get_current_line() + 1 << "> ";
         std::cin >> command;
@@ -43,5 +54,12 @@ int main() {
                 return e.value;
             }
         }
+    }
+}
+
+void validate_args(int argc, char** argv) {
+    if (argc > 2) {
+        std::cerr << "Expected 1 argument (filename), got " << argc - 1 << ".\n";
+        throw Exit(1);
     }
 }

@@ -37,7 +37,7 @@ int Buffer::open_file(std::string filename) {
         std::getline(file, line);
         lines.push_back(line);
     }
-    return file.good();
+    return file.eof();
 }
 int Buffer::write() {
     for (std::string line : lines) {

@@ -14,7 +14,9 @@ void Open::run(CommandArgs args) {
         std::cerr << "open: expected 0 keywoard args, got " << args.keyword_args.size() << ".\n";
         return;
     }
-    buffer->open_file(args.pos_args[0]);
+    if (!buffer->open_file(args.pos_args[0])) {
+        std::cerr << "open: file \"" << args.pos_args[0] << "\" not found.\n";
+    }
 }
 
 void Open::help() {
