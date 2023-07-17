@@ -52,3 +52,12 @@ class GoTo : public Command {
         void run(CommandArgs args);
         void help();
 };
+
+class Change : public Command {
+    private:
+        Buffer* buffer;
+    public:
+        Change(Buffer* buffer);
+        void run(CommandArgs args);
+        void help();
+};
