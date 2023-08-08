@@ -14,7 +14,7 @@ void Print::run(CommandArgs args) {
     do {
         line_numbers_width += 1;
     } while (lines_count /= 10);
-    for (auto i = 0; i < buffer->get_lines()->size(); i++) {
+    for (auto i = 1; i <= buffer->get_lines()->size(); i++) {
         std::cout << std::setw(line_numbers_width + 1) << i << ' ' << (*(buffer->get_lines()))[i] << '\n';
     }
 }
