@@ -1,37 +1,20 @@
-all: lie
+TARGET = lie
+PREFIX ?= /usr/local
+SRCS = main.cpp parse.cpp buffer.cpp exit.cpp commands/quit.cpp commands/help.cpp commands/print.cpp commands/open.cpp commands/goto.cpp commands/change.cpp
+OBJS = $(SRCS:.cpp=.o)
 
-lie: main.o parse.o buffer.o quit.o help.o print.o open.o exit.o goto.o change.o
-	g++ main.o parse.o buffer.o quit.o help.o print.o open.o exit.o goto.o change.o -o lie
+.PHONY: all clean install uninstall
 
-main.o: main.cpp
-	g++ -c main.cpp
+all: $(TARGET)
+$(TARGET): $(OBJS)
+	$(CXX) -o $(TARGET) $(OBJS) $(CXXFLAGS)
 
-parse.o: parse.cpp
-	g++ -c parse.cpp
-
-buffer.o: buffer.cpp
-	g++ -c buffer.cpp
-
-exit.o: exit.cpp
-	g++ -c exit.cpp
-
-quit.o: commands/quit.cpp
-	g++ -c commands/quit.cpp
-
-help.o: commands/help.cpp
-	g++ -c commands/help.cpp
-
-print.o: commands/print.cpp
-	g++ -c commands/print.cpp
-
-open.o: commands/open.cpp
-	g++ -c commands/open.cpp
-
-goto.o: commands/goto.cpp
-	g++ -c commands/goto.cpp
-
-change.o: commands/change.cpp
-	g++ -c commands/change.cpp
+.cpp:
+	$(CXX) $(CXXFLAGS)  -c $< -o $@
 
 clean:
-	rm -f *.o lie
+	rm -rf $(TARGET) $(OBJS)
+install:
+	install $(TARGET) $(PREFIX)/bin
+uninstall:
+	rm -rf $(PREFIX)/bin/$(TARGET)
