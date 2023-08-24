@@ -5,6 +5,7 @@
 #include "commands.h"
 #include "../buffer.h"
 #include "../parse.h"
+#include "../validators/validate_int.h"
 
 
 GoTo::GoTo(Buffer* buffer) : buffer(buffer) {}
@@ -22,17 +23,8 @@ void GoTo::run(CommandArgs args) {
     if (args.pos_args[0] == "-") {
         line = buffer->get_prev_current_line() + 1;
     } else {
-        try {
-            line = std::stoull(args.pos_args[0]);
-        } catch (std::invalid_argument const&) {
-            std::cerr << "goto: line must be positive integer!\n";
-            return;
-        }
-    }
-    std::size_t max_line = buffer->get_lines()->size();
-    if (line > max_line || line < 1) {
-        std::cerr << "goto: line should be from 1 to " << max_line << ".\n";
-        return;
+        std::size_t max_line = buffer->get_lines()->size();
+        line = validate_line_number(args.pos_args[0], max_line, "goto", false);
     }
     buffer->set_current_line(line - 1);
 }
