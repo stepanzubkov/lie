@@ -6,6 +6,7 @@
 #include "../buffer.h"
 #include "../parse.h"
 #include "../validators/validate_int.h"
+#include "../validators/validation_result.h"
 
 
 GoTo::GoTo(Buffer* buffer) : buffer(buffer) {}
@@ -24,7 +25,10 @@ void GoTo::run(CommandArgs args) {
         line = buffer->get_prev_current_line() + 1;
     } else {
         std::size_t max_line = buffer->get_lines()->size();
-        line = validate_line_number(args.pos_args[0], max_line, "goto", false);
+        ValidationResult<std::size_t> result = validate_line_number(args.pos_args[0], max_line, "goto", false);
+        if (!result.success)
+            return;
+        line = result.value;
     }
     buffer->set_current_line(line - 1);
 }
