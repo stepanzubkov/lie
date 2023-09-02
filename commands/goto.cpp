@@ -14,7 +14,7 @@
 GoTo::GoTo(Buffer* buffer) : buffer(buffer) {}
 
 void GoTo::run(CommandArgs args) {
-    ValidationResult<CommandArgs> validated_args = validate_args_count(args, 1, 0);
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(1), Range(0));
     if (!validated_args.success) {
         print_error(validated_args.error_message, "goto");
         return;

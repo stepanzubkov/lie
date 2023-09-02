@@ -2,10 +2,10 @@
 
 
 class Range {
-    private:
+    public:
         int start;
         int stop;
-    public:
+
         Range(int);
         Range(int, int);
 
