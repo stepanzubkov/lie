@@ -2,4 +2,4 @@
 #include <string>
 #include <cstddef>
 
-void print_error(std::string, std::string, bool);
+void print_error(std::string error_message, std::string command_name = "", bool fatal = false);

@@ -7,17 +7,16 @@
 #include "../parse.h"
 #include "../validators/validate_int.h"
 #include "../validators/validation_result.h"
+#include "../validators/validate_args_count.h"
+#include "../errors.h"
 
 
 GoTo::GoTo(Buffer* buffer) : buffer(buffer) {}
 
 void GoTo::run(CommandArgs args) {
-    if (args.pos_args.size() != 1) {
-        std::cerr << "goto: expected 1 argument (line), got " << args.pos_args.size() << ".\n";
-        return;
-    }
-    if (args.keyword_args.size() != 0) {
-        std::cerr << "goto: expected 0 keyword arguments, got " << args.keyword_args.size() << ".\n";
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, 1, 0);
+    if (!validated_args.success) {
+        print_error(validated_args.error_message, "goto");
         return;
     }
     std::size_t line;
@@ -25,9 +24,11 @@ void GoTo::run(CommandArgs args) {
         line = buffer->get_prev_current_line() + 1;
     } else {
         std::size_t max_line = buffer->get_lines()->size();
-        ValidationResult<std::size_t> result = validate_line_number(args.pos_args[0], max_line, "goto", false);
-        if (!result.success)
+        ValidationResult<std::size_t> result = validate_line_number(args.pos_args[0], max_line);
+        if (!result.success) {
+            print_error(result.error_message, "goto");
             return;
+        }
         line = result.value;
     }
     buffer->set_current_line(line - 1);

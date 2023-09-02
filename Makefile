@@ -1,6 +1,6 @@
 TARGET = lie
 PREFIX ?= /usr/local
-SRCS = main.cpp parse.cpp buffer.cpp exit.cpp commands/quit.cpp commands/help.cpp commands/print.cpp commands/open.cpp commands/goto.cpp commands/change.cpp errors.cpp validators/validate_int.cpp
+SRCS = main.cpp parse.cpp buffer.cpp exit.cpp commands/quit.cpp commands/help.cpp commands/print.cpp commands/open.cpp commands/goto.cpp commands/change.cpp errors.cpp validators/validate_int.cpp validators/validate_args_count.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 .PHONY: all clean install uninstall
@@ -13,7 +13,7 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS)  -c $< -o $@
 
 clean:
-	rm -rf $(TARGET) *.o
+	rm -rf $(TARGET) $(OBJS)
 install:
 	install $(TARGET) $(PREFIX)/bin
 uninstall:

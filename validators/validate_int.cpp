@@ -7,20 +7,18 @@
 #include "../errors.h"
 #include "validation_result.h"
 
-ValidationResult<std::size_t> validate_line_number(std::string source, std::size_t max_limit, std::string command_name = "", bool fatal = false) {
+ValidationResult<std::size_t> validate_line_number(std::string source, std::size_t max_limit) {
     long long number;
-    bool success = true;
+    std::string error_message = "";
     try {
         number = std::stoll(source);
     } catch (std::invalid_argument const&) {
-        success = false;
-        print_error("line number should be integer.", command_name, fatal);
+        error_message = "line number should be integer.";
     }
     if (number < 1 || number > max_limit) {
-        success = false;
-        print_error("line number should be in range 1-" + std::to_string(max_limit) + ".", command_name, fatal);
+        error_message = "line number should be in range 1-" + std::to_string(max_limit) + ".";
     }
 
-    ValidationResult<std::size_t> result = {success, (std::size_t)number};
+    ValidationResult<std::size_t> result = {error_message.size() == 0, (std::size_t)number, error_message};
     return result;
 }
