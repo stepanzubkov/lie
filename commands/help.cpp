@@ -46,6 +46,6 @@ void Help::run(CommandArgs args) {
 }
 
 void Help::help() {
-    std::cout << "\th[elp] (command) [commands...] - Prints help for specified commands.\n";
+    std::cout << "h[elp] (command) [commands...] - Prints help for specified commands.\n";
 }
 
