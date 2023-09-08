@@ -1,5 +1,5 @@
 /*
-    Command that prints buffer contents.
+    Command that saves buffer to file.
     Copyright (C) 2023 Stepan Zubkov <stepanzubkov@florgon.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,38 +16,33 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include "commands.h"
 #include "../buffer.h"
-#include "../parse.h"
 #include "../validators/validation_result.h"
 #include "../validators/validate_args_count.h"
 #include "../datastructures/range.h"
 #include "../errors.h"
 
 
-Print::Print(Buffer* buffer) : buffer(buffer) {}
+Save::Save(Buffer* buffer) : buffer(buffer) {}
 
-void Print::run(CommandArgs args) {
-    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0), Range(0, 1));
+void Save::run(CommandArgs args) {
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0, 1), Range(0));
     if (!validated_args.success) {
-        print_error(validated_args.error_message, "print");
+        print_error(validated_args.error_message, "save");
         return;
     }
 
-    int line_numbers_width = 0;
-    std::size_t lines_count = buffer->get_lines()->size();
-    do {
-        line_numbers_width += 1;
-    } while (lines_count /= 10);
-    for (auto i = 0; i <= buffer->get_lines()->size()-1; i++) {
-        std::cout << std::setw(line_numbers_width + 1) << i + 1 << ' ' << (*(buffer->get_lines()))[i] << '\n';
+    if (args.pos_args.size() == 0) {
+        if (buffer->get_filename() == "") {
+            print_error("specify filename for unnamed buffer", "save");
+            return;
+        }
+    } else {
+        buffer->set_filename(args.pos_args[0]);
     }
+    buffer->write();
+
 }
-void Print::help() {
-    std::cout << "p[rint] - Prints content of current buffer. Shows line numbers by default.\n";
-    std::cout << "Keywoard arguments:\n";
-    std::cout << "    n[umber]=t[rue] or f[alse] - Show line numbers or no.\n";
-}
+
+void Save::help() {}

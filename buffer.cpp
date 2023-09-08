@@ -51,6 +51,7 @@ int Buffer::open_file(std::string filename) {
         file.close();
         file.clear();
     }
+    set_filename(filename);
     file.open(filename, std::ios::out | std::ios::in);
     std::string line;
     lines->clear();
@@ -61,8 +62,24 @@ int Buffer::open_file(std::string filename) {
     return file.eof();
 }
 int Buffer::write() {
-    for (std::string line : *lines) {
-        file << line;
+    if (file.is_open()) {
+        file.close();
+        file.clear();
     }
+    file.open(filename, std::ios::out | std::ios::in | std::ios::trunc);
+    for (auto i = 0; i < lines->size(); i++) {
+        file << (*lines)[i];
+        if (i < lines->size() - 1)
+            file << '\n';
+    }
+    file.close();
     return file.good();
+}
+
+void Buffer::set_filename(std::string f) {
+    filename = f;
+}
+
+std::string Buffer::get_filename() const {
+    return filename;
 }

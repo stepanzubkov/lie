@@ -26,6 +26,7 @@
 class Buffer {
     private:
         std::fstream file;
+        std::string filename;
         std::vector<std::string>* lines;
         std::size_t current_line;
         std::size_t prev_current_line;
@@ -39,6 +40,8 @@ class Buffer {
         void set_current_line(std::size_t current_line);
         int open_file(std::string filename);
         int write();
+        void set_filename(std::string filename);
+        std::string get_filename() const;
 };
 
 #endif

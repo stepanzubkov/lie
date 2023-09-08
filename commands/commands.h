@@ -78,3 +78,12 @@ class Change : public Command {
         void run(CommandArgs args);
         void help();
 };
+
+class Save : public Command {
+    private:
+        Buffer* buffer;
+    public:
+        Save(Buffer* buffer);
+        void run(CommandArgs args);
+        void help();
+};
