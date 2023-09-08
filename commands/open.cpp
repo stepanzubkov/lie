@@ -19,16 +19,17 @@
 #include <iostream>
 #include "commands.h"
 #include "../parse.h"
+#include "../validators/validation_result.h"
+#include "../validators/validate_args_count.h"
+#include "../datastructures/range.h"
+#include "../errors.h"
 
 Open::Open(Buffer* buffer) : buffer(buffer) {}
 
 void Open::run(CommandArgs args) {
-    if (args.pos_args.size() != 1) {
-        std::cerr << "open: expected 1 argument (filename), got " << args.pos_args.size() << ".\n";
-        return;
-    }
-    if (args.keyword_args.size() > 0) {
-        std::cerr << "open: expected 0 keywoard args, got " << args.keyword_args.size() << ".\n";
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(1), Range(0));
+    if (!validated_args.success) {
+        print_error(validated_args.error_message, "open");
         return;
     }
     if (!buffer->open_file(args.pos_args[0])) {
