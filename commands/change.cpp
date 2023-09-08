@@ -21,16 +21,19 @@
 #include "commands.h"
 #include "../buffer.h"
 #include "../parse.h"
+#include "../validators/validation_result.h"
+#include "../validators/validate_args_count.h"
+#include "../datastructures/range.h"
+#include "../errors.h"
 
 
 Change::Change(Buffer* buffer) : buffer(buffer) {}
 
 void Change::run(CommandArgs args) {
-    if (args.pos_args.size() > 1) {
-        std::cout << "change: expected 0 or 1 positional arguments (line number), got " << args.pos_args.size() << ".\n";
-    }
-    if (args.keyword_args.size() > 0) {
-        std::cout << "change: expected 0 keywoard arguments, got " << args.keyword_args.size() << ".\n";
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0, 1), Range(0));
+    if (!validated_args.success) {
+        print_error(validated_args.error_message, "change");
+        return;
     }
 
     std::vector<std::string>* lines = buffer->get_lines();
