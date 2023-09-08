@@ -20,8 +20,18 @@
 #include "commands.h"
 #include "../parse.h"
 #include "../exit.h"
+#include "../validators/validation_result.h"
+#include "../validators/validate_args_count.h"
+#include "../datastructures/range.h"
+#include "../errors.h"
 
-void Quit::run(CommandArgs _) {
+void Quit::run(CommandArgs args) {
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0), Range(0));
+    if (!validated_args.success) {
+        print_error(validated_args.error_message, "quit");
+        return;
+    }
+
     throw Exit(0);
 }
 

@@ -24,6 +24,7 @@
 #include "../validators/validate_int.h"
 #include "../validators/validation_result.h"
 #include "../validators/validate_args_count.h"
+#include "../datastructures/range.h"
 #include "../errors.h"
 
 

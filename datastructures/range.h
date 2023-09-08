@@ -16,6 +16,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#if !defined(RANGE)
+#define RANGE
 
 class Range {
     public:
@@ -27,3 +29,5 @@ class Range {
 
         bool contains(int);
 };
+
+#endif
