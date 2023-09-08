@@ -22,11 +22,21 @@
 #include "commands.h"
 #include "../buffer.h"
 #include "../parse.h"
+#include "../validators/validation_result.h"
+#include "../validators/validate_args_count.h"
+#include "../datastructures/range.h"
+#include "../errors.h"
 
 
 Print::Print(Buffer* buffer) : buffer(buffer) {}
 
 void Print::run(CommandArgs args) {
+    ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0), Range(1));
+    if (!validated_args.success) {
+        print_error(validated_args.error_message, "print");
+        return;
+    }
+
     int line_numbers_width = 0;
     std::size_t lines_count = buffer->get_lines()->size();
     do {
