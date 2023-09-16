@@ -39,6 +39,10 @@ void Print::run(CommandArgs args) {
 
     int line_numbers_width = 0;
     std::size_t lines_count = buffer->get_lines()->size();
+    if (!lines_count) {
+        std::cout << "<empty buffer>\n";
+        return;
+    }
     do {
         line_numbers_width += 1;
     } while (lines_count /= 10);
