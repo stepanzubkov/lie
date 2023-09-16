@@ -34,7 +34,13 @@ void Open::run(CommandArgs args) {
     }
     if (!buffer->open_file(args.pos_args[0])) {
         std::cerr << "open: file \"" << args.pos_args[0] << "\" not found.\n";
+        return;
     }
+    unsigned long long char_count = 0;
+    for (auto i = buffer->get_lines()->begin(); i < buffer->get_lines()->end(); i++) {
+        char_count += i->size();
+    }
+    std::cout << sizeof(char) * char_count << " bytes, " << buffer->get_lines()->size() << " lines."<< std::endl;
 }
 
 void Open::help() {
