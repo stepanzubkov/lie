@@ -28,9 +28,7 @@
 #include "../errors.h"
 
 
-Append::Append(Buffer* buffer) {
-    buffer = buffer;
-}
+Append::Append(Buffer* buffer) : buffer(buffer) {}
 
 void Append::run(CommandArgs args) {
     ValidationResult<CommandArgs> validated_args = validate_args_count(args, Range(0, 1), Range(0));

@@ -44,15 +44,18 @@ int main(int argc, char** argv) {
         {"g", "goto"},
         {"c", "change"},
         {"s", "save"},
+        {"a", "append"},
     };
     Buffer* current_buffer = new Buffer();
     std::map<std::string, Command*> commands{
         {"quit", new Quit()},
+        {"help", new Help(commands, commands_aliases)},
         {"print", new Print(current_buffer)},
         {"open", new Open(current_buffer)},
         {"goto", new GoTo(current_buffer)},
         {"change", new Change(current_buffer)},
         {"save", new Save(current_buffer)},
+        {"append", new Append(current_buffer)}
     };
     commands["help"] = new Help(commands, commands_aliases);
     if (argc > 1) {

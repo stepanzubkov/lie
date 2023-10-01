@@ -21,6 +21,7 @@
 #include "../errors.h"
 #include "validation_result.h"
 #include "../datastructures/range.h"
+#include <iostream>
 
 ValidationResult<CommandArgs> validate_args_count(CommandArgs args, Range pos_args_range, Range keyword_args_range) {
     std::string error_message = "";
