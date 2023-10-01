@@ -87,3 +87,12 @@ class Save : public Command {
         void run(CommandArgs args);
         void help();
 };
+
+class Append : public Command {
+    private:
+        Buffer* buffer;
+    public:
+        Append(Buffer* buffer);
+        void run(CommandArgs args);
+        void help();
+};
