@@ -55,6 +55,7 @@ void Append::run(CommandArgs args) {
     std::getline(std::cin, line);
     while (line != ";") {
         lines->insert(lines->begin() + line_number, line);
+        line_number += 1;
         std::getline(std::cin, line);
     }
 }
